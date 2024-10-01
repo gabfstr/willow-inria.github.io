@@ -53,7 +53,7 @@ jobs:
           name: jekyll-site
           path: www/
 
-    deploy:
+  deploy:
                 
       - name: Deploy to ENS server
         id: deployment        
