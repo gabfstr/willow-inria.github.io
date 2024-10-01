@@ -40,7 +40,7 @@ jobs:
         #   bundle exec jekyll build
         run: |
           export JEKYLL_ENV=production
-          bundle exec jekyll build --destination "wwww"
+          bundle exec jekyll build --trace --destination wwww/
 
       # Upload the www folder as an artifact
       - name: Upload Build Artifact
@@ -48,6 +48,7 @@ jobs:
         with:
           name: jekyll-site
           path: www/
+          if-no-files-found: error
 
   deploy:
     name: Deploy to ENS Server
