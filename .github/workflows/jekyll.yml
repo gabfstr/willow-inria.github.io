@@ -59,12 +59,7 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@v3
         with:
-          name: jekyll-site
-      
-      - name: Purge unused CSS 🧹
-        run: |
-          npm install -g purgecss
-          purgecss -c purgecss.config.js     
+          name: jekyll-site 
       
       # Scp the www folder to the ens server
       - name: Deploy to ENS server
