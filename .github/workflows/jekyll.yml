@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jekyll-site
-          path: ./
+          path: www/
           if-no-files-found: error
 
   deploy:
@@ -61,9 +61,6 @@ jobs:
         with:
           name: jekyll-site 
 
-      # List files to check the contents
-      - name: List files
-        run: ls -a
       
       # Scp the www folder to the ens server
       - name: Deploy to ENS server
@@ -73,5 +70,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "www/*"
+          source: "./*"
           target: ${{ secrets.TARGET_PATH }}
