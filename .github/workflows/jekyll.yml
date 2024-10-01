@@ -33,13 +33,6 @@ jobs:
         with:
           ruby-version: "3.2.2"
           bundler-cache: true
-      # - name: Update _config.yml ⚙️
-      #   uses: fjogeleit/yaml-update-action@main
-      #   with:
-      #     commitChange: false
-      #     valueFile: "_config.yml"
-      #     propertyPath: "giscus.repo"
-      #     value: ${{ github.repository }}
       - name: Install and Build 🔧
         # run: |
         #   pip3 install --upgrade jupyter
@@ -47,21 +40,20 @@ jobs:
         #   bundle exec jekyll build
         run: |
           export JEKYLL_ENV=production
-          bundle exec jekyll build
+          bundle exec jekyll build --destination "wwww"
       - name: Purge unused CSS 🧹
         run: |
           npm install -g purgecss
-          purgecss -c purgecss.config.js
-  # build-and-deploy:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
+          purgecss -c purgecss.config.js    
       
-  #     - name: Build Jekyll
-  #       uses: jerryjvl/jekyll-build-action@v1
-      
-      - name: rename
-        run: mv _site www
+      # Upload the www folder as an artifact
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: jekyll-site
+          path: www/
+
+    deploy:
                 
       - name: Deploy to ENS server
         id: deployment        
