@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   # Build job
-  build-and-deploy:
+  build-site:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -51,7 +51,7 @@ jobs:
 
   deploy:
     name: Deploy to ENS Server
-    needs: build  # Ensures this job only runs after the 'build' job
+    needs: build-site  # Ensures this job only runs after the 'build' job
     runs-on: ubuntu-latest
     steps:
       # Download the artifact from the build job
