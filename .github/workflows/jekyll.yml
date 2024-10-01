@@ -1,0 +1,45 @@
+# Sample workflow for building and deploying a Jekyll site to a custom server as a self-contained website.
+name: Build & deploy Jekyll site
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["master"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions 
+permissions:
+  contents: write
+  pages: write
+  # id-token: write # GITHUB_TOKEN to allow deployment to GitHub Pages
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do not cancel in-progress runs as we want to allow these production deployments to complete. 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build Jekyll
+        uses: jerryjvl/jekyll-build-action@v1
+      
+      - name: rename
+        run: mv _site www
+                
+      - name: Deploy to ENS server
+        id: deployment        
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "www/*"
+          target: ${{ secrets.TARGET_PATH }}
