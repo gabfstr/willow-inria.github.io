@@ -46,7 +46,6 @@ jobs:
         #   export JEKYLL_ENV=production
         #   bundle exec jekyll build
         run: |
-          bundle install
           export JEKYLL_ENV=production
           bundle exec jekyll build
       - name: Purge unused CSS 🧹
