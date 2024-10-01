@@ -41,11 +41,7 @@ jobs:
         run: |
           export JEKYLL_ENV=production
           bundle exec jekyll build --destination "wwww"
-      - name: Purge unused CSS 🧹
-        run: |
-          npm install -g purgecss
-          purgecss -c purgecss.config.js    
-      
+
       # Upload the www folder as an artifact
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
@@ -54,7 +50,22 @@ jobs:
           path: www/
 
   deploy:
-                
+    name: Deploy to ENS Server
+    needs: build  # Ensures this job only runs after the 'build' job
+    runs-on: ubuntu-latest
+    steps:
+      # Download the artifact from the build job
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: jekyll-site
+      
+      - name: Purge unused CSS 🧹
+        run: |
+          npm install -g purgecss
+          purgecss -c purgecss.config.js     
+      
+      # Scp the www folder to the ens server
       - name: Deploy to ENS server
         id: deployment        
         uses: appleboy/scp-action@v0.1.7
