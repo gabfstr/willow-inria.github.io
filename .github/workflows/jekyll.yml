@@ -60,6 +60,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: jekyll-site 
+
+      # run ls -a
+      - name: List files
+        run: ls -a
+      
+      # run la -a willow-inria.github.io/
+      - name: List files
+        run: ls -a willow-inria.github.io/
       
       # Scp the www folder to the ens server
       - name: Deploy to ENS server
