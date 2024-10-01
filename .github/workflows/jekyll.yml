@@ -40,7 +40,7 @@ jobs:
         #   bundle exec jekyll build
         run: |
           export JEKYLL_ENV=production
-          bundle exec jekyll build --trace --destination wwww/
+          bundle exec jekyll build --trace --destination www/
 
       # Upload the www folder as an artifact
       - name: Upload Build Artifact
